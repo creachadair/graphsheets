@@ -1,0 +1,77 @@
+%!
+
+%% Name:    knotwork-worksheet.ps
+%% Purpose: Celtic knotwork worksheet, method of Iain Bain.
+%%
+%% Copyright (C) 1996 Michael J. Fromberger. All Rights Reserved.
+
+/in { 72 mul } def          % an inch, in points
+/height 11 in def           % page height, points
+/width  8.5 in def          % page width, points
+/margin 0.4 in def          % page margin, in points
+/sqpi 5 def                 % number of squares per inch
+/boxgray 0.5 def            % how black the boxes?
+/guidegray 0.8 def          % how black the guide lines?
+/boxline 0.3 def            % how heavy the box lines?
+/guideline 0.3 def          % how heavy the guide lines?
+ 
+/sqsize 1 in sqpi div def
+
+margin margin translate
+newpath 
+  0 0 moveto
+  width margin 2 mul sub 0 rlineto
+  0 height margin 2 mul sub rlineto
+  width margin 2 mul sub neg 0 rlineto
+closepath
+clip
+
+% Draw the box horizontals
+0 sqsize height {
+	newpath
+	  0 exch moveto
+	  width 0 rlineto
+	boxgray setgray boxline setlinewidth
+	stroke
+} for
+
+% Draw the box verticals
+0 sqsize height {
+	newpath
+	  0 moveto
+	  0 height rlineto
+	boxgray setgray boxline setlinewidth
+	stroke
+} for
+
+% Draw the guidelines up along the sides
+0 sqsize height {
+	dup
+	newpath
+	  0 exch sqsize 2 div add moveto
+	  width width rlineto
+	guidegray setgray guideline setlinewidth
+	stroke
+	newpath
+	  width exch moveto
+	  width neg width rlineto
+	guidegray setgray guideline setlinewidth
+	stroke
+} for
+
+% Draw the guidelines out along the bottom margin
+0 sqsize width {
+	dup
+	newpath
+	  sqsize 2 div add 0 moveto
+	  width width rlineto
+	guidegray setgray guideline setlinewidth
+	stroke
+	newpath
+	  width sqsize sub exch sub 0 moveto
+	  width neg width rlineto
+	guidegray setgray guideline setlinewidth
+	stroke
+} for
+
+showpage
