@@ -1,0 +1,63 @@
+%!PS-Adobe-3.0
+%%Title: (Return Address Labels)
+
+%% Name:    return-labels.ps
+%% Purpose: Format a sheet of return address labels.
+%%
+%% Copyright (C) 1996 Michael J. Fromberger. All Rights Reserved.
+%%
+%% Formats an 8.5" x 11" sheet of Avery 5167/8167 address labels.
+%% You should define /line1, /line2, and /line3 as appropriate.
+
+/line1 { (Firstname I. Lastname) } def
+/line2 { (1234 Something St. E)  } def
+/line3 { (City ST  12345)     } def
+
+% Various useful things
+/in { 72 mul } def
+/inc { 1 add } def
+/dec { 1 sub } def
+
+% Measurements
+/labelHeight { 0.5 in }   def  % Total height of individual label
+/labelWidth  { 1.75 in }  def  % Total width of individual label
+/leftMargin  { 0.313 in } def  % Gap between left page edge and first column
+/leftInset   { 0.15 in  } def  % Amount to inset from left edge of label
+/topInset    { 0.125 in } def  % Amount to inset from top edge of label
+/topMargin   { 0.5 in }   def  % Gap between top page edge and first row
+/colGutter   { 0.313 in } def  % Gap between columns
+/pointSize   { 9 }        def  % Size of type to use
+
+/ncols 4  def   % Number of columns on a sheet
+/nrows 20 def   % Number of rows on a sheet
+
+/setBoldFace { /Helvetica-Bold findfont pointSize scalefont setfont } def
+/setPlainFace { /Helvetica findfont pointSize scalefont setfont } def
+/printLine {
+    currentpoint
+    newpath 2 copy moveto
+    3 2 roll
+    show
+    moveto
+    0 pointSize inc neg rmoveto
+} def
+/gotoRowCol { % r c --
+    0 0 moveto
+    leftMargin topMargin neg rmoveto
+    dup dec colGutter mul exch
+    dec labelWidth mul add exch
+    dec labelHeight mul neg rmoveto
+    leftInset topInset neg rmoveto
+} def
+
+0 in 11 in translate
+1 1 nrows {
+    1 1 ncols {
+	exch dup 3 2 roll gotoRowCol
+	line1 setBoldFace printLine
+	line2 setPlainFace printLine
+	line3 setPlainFace printLine
+    } for
+    pop
+} for
+showpage
