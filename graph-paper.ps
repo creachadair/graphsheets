@@ -1,0 +1,52 @@
+%!
+
+%% Name:    graph-paper.ps
+%% Purpose: Print a single sheet of graph-ruled paper.
+%%
+%% Copyright (C) 1996 Michael J. Fromberger. All Rights Reserved.
+
+% Common definitions
+/in { 72 mul } def
+/cm { 28.34 mul } def
+
+%% -- Tunable parameters
+/squaresperinch 4   def
+/gridlinewidth  0.1 def
+/gridgrey       0.5 def
+/pagewidth      8.5 in def
+/pageheight     11 in def
+
+/spi    5   def  % Squares per inch
+/weight 0.1 def  % Weight of each rule
+/grey   0.5 def  % Lightness of each rule
+/ph     11  def  % Page height in inches
+/pw     8.5 def  % Page width in inches
+
+%%
+%% <s> gridpage --
+%% Fill a page of squares of side-length <s> starting from the current point
+%% and filling rightward and upward.
+%%
+/gridpage {
+  dup currentpoint 3 2 roll
+  currentpoint pop exch pagewidth {
+    currentpoint exch pop moveto
+    0 pageheight rlineto 0 pageheight neg rmoveto
+  } for
+  moveto dup
+  currentpoint exch pop exch pageheight {
+    currentpoint pop exch moveto
+    pagewidth 0 rlineto pagewidth neg 0 rmoveto
+  } for
+} def
+
+newpath
+0 0 moveto
+1 in squaresperinch div floor
+gridpage
+gridlinewidth setlinewidth
+gridgrey setgray
+stroke
+showpage
+
+%% Here there be dragons
