@@ -1,0 +1,3 @@
+%!
+% tablature-sheet.ps, copyright (C) 1996 Michael J. Fromberger. All Rights Reserved.
+/in { 72 mul } def/pagew 8.5 in def/pageh 11 in def/linespc 0.15 in def/staffspc 0.5 in def/vmar 0.5 in def/hmar 0.5 in def/ypos{currentpoint exch pop}def/lpen{0.4 setlinewidth}def/nstaves{/need linespc 6 mul staffspc add def/avail pageh vmar 2 mul sub def avail need div round dup need mul staffspc sub avail lt{1 add}if}def/stave{1 1 6{hmar ypos moveto pagew hmar 2 mul sub 0 rlineto 0 linespc neg rmoveto pop}for 0 linespc rmoveto}def newpath 0 pageh vmar sub moveto 1 1 nstaves{stave 0 staffspc neg rmoveto pop}for lpen stroke showpage

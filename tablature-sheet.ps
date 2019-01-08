@@ -1,0 +1,53 @@
+%!
+
+%% Name:    tab.ps
+%% Purpose: Six-line guitar tablature paper.
+%%
+%% Copyright (C) 1996 Michael J. Fromberger. All Rights Reserved.
+
+/in { 72 mul } def      % an inch
+/pagew 8.5 in def       % page width
+/pageh 11 in def        % page height
+/linespc 0.15 in def    % spacing between tab lines
+/staffspc 0.5 in def    % spacing between tab staves
+/vmar 0.5 in def        % vertical margins (top, bottom)
+/hmar 0.5 in def        % horizontal margins (left, right)
+
+% Get current y coordinate
+/ypos { currentpoint exch pop } def
+
+% Set tab line weight
+/lpen { 0.4 setlinewidth } def
+
+% Compute how many staves will fit on the page at the current
+% vertical dimension
+/nstaves {
+  /need linespc 6 mul staffspc add def
+  /avail pageh vmar 2 mul sub def
+
+  avail need div round
+  dup 
+  need mul staffspc sub
+  avail lt { 1 add } if  
+} def
+
+% Draw a six-line stave from the left margin to the right
+% at the current vertical location
+/stave {
+  1 1 6 {
+    hmar ypos moveto            % go to left margin, current line
+    pagew hmar 2 mul sub 0 rlineto    % draw line
+    0 linespc neg rmoveto       % move down one linespace
+    pop                         % get rid of unneeded index
+  } for
+  0 linespc rmoveto             % back up one linespace
+} def
+
+newpath
+0 pageh vmar sub moveto
+1 1 nstaves {
+  stave
+  0 staffspc neg rmoveto
+  pop
+} for
+lpen stroke showpage
