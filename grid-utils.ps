@@ -1,0 +1,56 @@
+%!
+%%
+%% Name:    grid-utils.ps
+%% Purpose: grid-drawing routines.
+%%
+%% Copyright (C) 1996 Michael J. Fromberger. All Rights Reserved.
+%%
+%% PostScript source code for drawing square grids.
+
+%% <h> <w> <s> gridpage --
+%% Fill an <h> by <w> page of squares of side-length <s> starting from the
+%% current point and filling rightward and upward.
+/gridpage {
+  2 dict begin 3 1 roll /pw exch def /ph exch def
+  dup currentpoint 3 2 roll
+  currentpoint pop exch pw {
+    currentpoint exch pop moveto
+    0 ph rlineto 0 ph neg rmoveto
+  } for
+  moveto dup
+  currentpoint exch pop exch ph {
+    currentpoint pop exch moveto
+    pw 0 rlineto pw neg 0 rmoveto
+  } for
+  end
+} def
+
+%% <h> <w> <r> vlines --
+%% Draw vertical rules through the centers of the hexes drawn by <r> hexpage
+%% starting from the current point and filling rightward and upward to the
+%% height and width given.
+/vlines {
+  2 dict begin 3 1 roll /pw exch def /ph exch def
+  dup dup 30 cos mul
+  currentpoint pop exch pw {
+    currentpoint exch pop moveto
+    0 ph rlineto 0 ph neg rmoveto
+  } for
+  pop
+  end
+} def
+
+%% <h> <w> <r> hlines --
+%% Draw horizontal rules through the centers of the hexes drawn by <r> hexpage
+%% starting from the current point and filling rightward and upward to the
+%% height and width given.
+/hlines {
+  2 dict begin 3 1 roll /pw exch def /ph exch def
+  dup dup 30 sin mul add
+  currentpoint exch pop exch ph {
+    currentpoint pop exch moveto
+    pw 0 rlineto pw neg 0 rmoveto
+  } for
+  pop
+  end
+} def
