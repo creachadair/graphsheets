@@ -1,177 +1,19 @@
 %!
-
-%% Name:    hex-graph-paper.ps
-%% Purpose: Hexagon/square grid-drawing routines.
-%%
+%% hex-graph-paper.ps: Draw a sheet of hex/graph paper.
 %% Copyright (C) 1996 Michael J. Fromberger. All Rights Reserved.
-%%
-%% PostScript source code for drawing collections of arbitrary-sized hexagons,
-%% clusters of hexes, and lines of hexes, and square grids.
-
-% Common definitions
-/in { 72 mul } def
-/cm { 28.34 mul } def
-/pagewidth 8.5 in def
-/pageheight 11 in def
-
-%% -- Tunable parameters
-/gridlinewidth  0.1 def    % Line weight of grid rules.
-/gridgray       0.5 def    % Grey value of grid rules.
-/hexlinewidth   0.3 def    % Line weight of hex borders.
-/hexgray        0.5 def    % Grey value of hex borders.
-/currenthexsize 0.5 cm def % Radius of hexagons.
-
-%%
-%% <r> hex --
-%% Draw a hexagon centered at the current point, whose radius is <r>
-%% points.
-%%
-%% Leaves the current point where it started.
-%%
-/hex {
-  currentpoint 3 2 roll
-  dup 0 exch rmoveto
-  -60 rotate
-  1 1 6 {
-    pop
-    dup neg 0 exch rlineto
-    60 rotate
-  } for
-  60 rotate
-  pop
-  moveto
-} def
-
-%%
-%% <f> <r> hexmoveto --
-%% Assuming the current point as the origin, move to the center of a
-%% radius <r> hex that would border on the current center's hex, where
-%% <f> is defined as:
-%%
-%%         6 /\ 1
-%%          /  \
-%%        5 |  | 2
-%%          \  /
-%%         4 \/ 3
-%%
-/hexmoveto {
-  exch 1 sub
-  dup 60 mul neg rotate
-  exch dup 0 exch rmoveto
-  -60 rotate
-  dup 0 exch rmoveto
-  60 rotate
-  exch 60 mul rotate pop
-} def
-
-%%
-%% <r> hexblock --
-%% Make a block of seven hexes (six surrounding one) centered at the
-%% current point, where each hex has radius <r>.
-%%
-/hexblock {
-  dup 5 exch hexmoveto
-  1 1 6 {
-    1 index dup hex hexmoveto
-  } for
-  pop
-} def
-
-%%
-%% <n> <r> hexrow --
-%% Make a row of <n> radius <r> hexes (horizontal) based at the current
-%% point.  Leaves the current point just past the last hex constructed.
-%%
-/hexrow {
-  1 1 4 3 roll {
-    pop dup hex dup 2 exch hexmoveto
-  } for
-  pop
-} def
-
-%%
-%% <d> <n> <r> hexline --
-%% Make a line of <n> radius-<r> hexes in direction <d> (where <d> is
-%% the face of the hex representing the direction to walk in)
-%%
-/hexline {
-  1 1 4 3 roll {
-    pop dup hex dup 2 index exch hexmoveto
-  } for
-  pop pop
-} def
-
-%%
-%% <k> <n> <r> hexrows --
-%% Make <k> rows of <n> radius-<r> hexes (horizontal) based at the
-%% current point and with rows stacking upward.
-%%
-/hexrows {
-  1 4 1 roll
-  1 1 5 4 roll {
-    pop currentpoint
-    4 2 roll 2 copy hexrow
-    4 2 roll moveto
-    dup 3 index exch hexmoveto
-    3 2 roll 5 add 10 mod 3 1 roll
-  } for
-  pop pop pop
-} def
-
-%%
-%% <r> hexpage --
-%% Render an 8.5" x 11" page of radius-<r> hexes
-%%
-/hexpage {
-  dup pageheight exch 30 cos mul div ceiling exch
-  dup pagewidth exch 30 cos mul div ceiling
-  exch
-  hexrows
-} def
-
-%%
-%% <r> vlines --
-%% Draw vertical rules through the centers of the hexes drawn by a call to
-%% <r> hexpage.
-%%
-/vlines {
-  dup 30 cos mul
-  currentpoint pop exch pagewidth {
-    currentpoint exch pop moveto
-    0 pageheight rlineto 0 pageheight neg rmoveto
-  } for
-  pop
-} def
-
-%%
-%% <r> hlines --
-%% Draw horizontal rules through the centers of the hexes drawn by a call to
-%% <r> hexpage.
-%%
-/hlines {
-  dup dup 30 sin mul add
-  currentpoint exch pop exch pageheight {
-    currentpoint pop exch moveto
-    pagewidth 0 rlineto pagewidth neg 0 rmoveto
-  } for
-  pop
-} def
-
-%% -- Draw a page of hexes (uses the above code)
-newpath
-0 0 moveto
-currenthexsize hexpage
-hexlinewidth setlinewidth
-hexgray setgray
-stroke
-newpath
-0 0 moveto
-currenthexsize vlines
-0 0 moveto
-currenthexsize hlines
-gridlinewidth setlinewidth
-gridgray setgray
-stroke
+%% --- begin configuration ---
+/pageheight { 11 in  } def  % page height in points
+/pagewidth  { 8.5 in } def  % page width in points
+/hexsize    { 0.4 cm } def  % hexagon radius in points
+/hexweight  { 0.3    } def  % line weight in points for hexes
+/gridweight { 0.1    } def  % line weight in points for grid
+/hexgray    { 0.5    } def  % line grey for hexes
+/gridgray   { 0.5    } def  % line grey for grid
+%% --- end configuration ---
+/in{72 mul}def/cm{28.34 mul}def/hex{currentpoint 3 2 roll dup 0 exch rmoveto -60 rotate 1 1 6{pop dup neg 0 exch rlineto 60 rotate}for 60 rotate pop moveto}def/hexmoveto{exch 1 sub dup 60 mul neg rotate exch dup 0 exch rmoveto -60 rotate dup 0 exch rmoveto 60 rotate exch 60 mul rotate pop}def/hexrow{1 1 4 3 roll{pop dup hex dup 2 exch hexmoveto}for pop}def/hexrows{1 4 1 roll 1 1 5 4 roll{pop currentpoint 4 2 roll 2 copy hexrow 4 2 roll moveto dup 3 index exch hexmoveto 3 2 roll 5 add 10 mod 3 1 roll}for pop pop pop}def/hexpage{2 dict begin 3 1 roll/pw exch def/ph exch def dup ph exch 30 cos mul div ceiling exch dup pw exch 30 cos mul div ceiling exch end hexrows}def
+/spi{1 in exch div floor}def/vlines{2 dict begin 3 1 roll/pw exch def/ph exch def dup dup 30 cos mul currentpoint pop exch pw{currentpoint exch pop moveto 0 ph rlineto 0 ph neg rmoveto}for pop end}def/hlines{2 dict begin 3 1 roll/pw exch def/ph exch def dup dup 30 sin mul add currentpoint exch pop exch ph{currentpoint pop exch moveto pw 0 rlineto pw neg 0 rmoveto}for pop end}def
+%% Render
+newpath 0 0 moveto pageheight pagewidth hexsize hexpage hexweight setlinewidth hexgray setgray stroke
+newpath 0 0 moveto pageheight pagewidth hexsize hlines 0 0 moveto pageheight pagewidth hexsize vlines
+gridweight setlinewidth gridgray setgray stroke
 showpage
-
-% Here there be dragons
