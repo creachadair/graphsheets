@@ -1,0 +1,9 @@
+%!PS-Adobe-3.0
+%%Title: (Return Address Labels)
+/line1 { (Firstname I. Lastname) } def
+/line2 { (1234 Something St. E)  } def
+/line3 { (City ST  12345)        } def
+%% -- end configuration --
+/in{72 mul}def/inc{1 add}def/dec{1 sub}def/labelHeight{0.5 in}def/labelWidth{1.75 in}def/leftMargin{0.313 in}def/leftInset{0.15 in}def/topInset{0.125 in}def/topMargin{0.5 in}def/colGutter{0.313 in}def/pointSize{9}def/ncols 4 def/nrows 20 def/setBoldFace{/Helvetica-Bold findfont pointSize scalefont setfont}def/setPlainFace{/Helvetica findfont pointSize scalefont setfont}def/printLine{currentpoint newpath 2 copy moveto 3 2 roll show moveto 0 pointSize inc neg rmoveto}def/gotoRowCol{0 0 moveto leftMargin topMargin neg rmoveto dup dec colGutter mul exch dec labelWidth mul add exch dec labelHeight mul neg rmoveto leftInset topInset neg rmoveto}def
+%% Render
+0 in 11 in translate 1 1 nrows{1 1 ncols{exch dup 3 2 roll gotoRowCol line1 setBoldFace printLine line2 setPlainFace printLine line3 setPlainFace printLine}for pop}for showpage
