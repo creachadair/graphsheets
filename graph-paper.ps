@@ -10,5 +10,4 @@
 %% --- end configuration ---
 /spi{1 in exch div floor}def/in{72 mul}def/cm{28.34 mul}def/gridpage{2 dict begin 3 1 roll/pw exch def/ph exch def dup currentpoint 3 2 roll currentpoint pop exch pw{currentpoint exch pop moveto 0 ph rlineto 0 ph neg rmoveto}for moveto dup currentpoint exch pop exch ph{currentpoint pop exch moveto pw 0 rlineto pw neg 0 rmoveto}for end}def
 %% Render
-newpath 0 0 moveto pageheight pagewidth gridsize gridpage
-gridweight setlinewidth gridgray setgray stroke showpage
+newpath 0 0 moveto pageheight pagewidth gridsize gridpage gridweight setlinewidth gridgray setgray stroke showpage

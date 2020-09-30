@@ -10,4 +10,4 @@
 %% --- end configuration ---
 /in{72 mul}def/cm{28.34 mul}def/hex{currentpoint 3 2 roll dup 0 exch rmoveto -60 rotate 1 1 6{pop dup neg 0 exch rlineto 60 rotate}for 60 rotate pop moveto}def/hexmoveto{exch 1 sub dup 60 mul neg rotate exch dup 0 exch rmoveto -60 rotate dup 0 exch rmoveto 60 rotate exch 60 mul rotate pop}def/hexrow{1 1 4 3 roll{pop dup hex dup 2 exch hexmoveto}for pop}def/hexrows{1 4 1 roll 1 1 5 4 roll{pop currentpoint 4 2 roll 2 copy hexrow 4 2 roll moveto dup 3 index exch hexmoveto 3 2 roll 5 add 10 mod 3 1 roll}for pop pop pop}def/hexpage{2 dict begin 3 1 roll/pw exch def/ph exch def dup ph exch 30 cos mul div ceiling exch dup pw exch 30 cos mul div ceiling exch end hexrows}def
 %% Render
-newpath 0 0 moveto pageheight pagewidth hexsize hexpage hexweight setlinewidth hexgray setgray stroke showpage 
+newpath 0 0 moveto pageheight pagewidth hexsize hexpage hexweight setlinewidth hexgray setgray stroke showpage
